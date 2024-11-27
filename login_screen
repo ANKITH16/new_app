@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'second_screen.dart';
+
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isButtonEnabled = false;
+
+  void _validateInputs() {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    setState(() {
+      _isButtonEnabled = email == "test@stanch.io" && password == "Test@123";
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Login')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (_) => _validateInputs(),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              onChanged: (_) => _validateInputs(),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _isButtonEnabled
+                  ? () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SecondScreen()),
+                      );
+                    }
+                  : null,
+              child: Text('Submit'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
